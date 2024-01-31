@@ -11,9 +11,6 @@ GOOGLE_BLUE = 4359668
 
 
 def main():
-    started_at = datetime.now().isoformat()
-    logging.info(f"Started at {started_at}")
-
     # Read the URLs from the csv file
     with open("./data/urls.csv", "r") as file:
         reader = csv.reader(file)
@@ -21,6 +18,9 @@ def main():
 
     # Loop through the URLs
     for url in urls:
+        started_at = datetime.now().isoformat()
+        logging.info(f"Started at {started_at}")
+
         saved_places = scrape_saved_places(url)
         upsert_csv(saved_places, "./data/saved_places.csv")
         new_places = get_new_places_created_after("./data/saved_places.csv", started_at)
