@@ -6,8 +6,7 @@ from datetime import datetime
 
 from playwright.sync_api import sync_playwright
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
-
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s')
 
 CSS_LIST_CLASS = '.m6QErb.DxyBCb.kA9KIf.dS8AEf.ussYcc'
 CSS_PLACES_CLASS = '.BsJqK.xgHk6'
@@ -99,13 +98,27 @@ def upsert_csv(places, file_path):
             rows.append(new_row)
 
     with open(file_path, 'w', encoding='utf-8', newline='') as file:
-        fieldnames = ['store_name', 'rating', 'reviews', 'memo', 'created_at', 'updated_at']
+        fieldnames = ['url', 'store_name', 'rating', 'reviews', 'memo', 'created_at', 'updated_at']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(rows)
 
 
+def get_new_rows_created_after(file_path, started_at: str):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        rows = list(reader)
+
+    return [row for row in rows if row['created_at'] > started_at]
+
+
 if __name__ == '__main__':
     shared_link = 'https://maps.app.goo.gl/WmESh8s9xbPnkfPV7'
+    file_path = './data/saved_places_dev.csv'
+
+    logging.getLogger().setLevel(logging.DEBUG)
+    started_at = datetime.now().isoformat()
     saved_places = scrape_saved_places(shared_link)
-    upsert_csv(saved_places, './data/saved_places_dev.csv')
+    upsert_csv(saved_places, file_path)
+    new_rows = get_new_rows_created_after(file_path, started_at)
+    logging.debug(f'New rows: {new_rows}')
