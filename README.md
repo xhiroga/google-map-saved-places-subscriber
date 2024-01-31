@@ -2,7 +2,7 @@
 
 Scrape google map saved places and save to csv file.
 
-## Debug in local
+## Debug on local
 
 To show browser window, run on local.
 
@@ -14,6 +14,14 @@ To show browser window, run on local.
 ```powershell
 .\start_dev.bat
 ```
+
+## Debug on Dev Container
+
+To use breakpoint, run on Dev Container.
+
+- `Dev Containers: Reopen in Container`
+- Open python file
+- Hit `Run and Debug`
 
 ## Run
 

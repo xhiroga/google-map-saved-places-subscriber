@@ -6,7 +6,6 @@ from datetime import datetime
 
 from playwright.sync_api import sync_playwright
 
-logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s')
 
 CSS_LIST_CLASS = '.m6QErb.DxyBCb.kA9KIf.dS8AEf.ussYcc'
 CSS_PLACES_CLASS = '.BsJqK.xgHk6'
@@ -14,6 +13,8 @@ CSS_PLACE_NAME_CLASS = ".fontHeadlineSmall"
 CSS_RATING_CLASS = ".MW4etd"
 CSS_REVIEWS_CLASS = ".UY7F9"
 CSS_MEMO_CLASS = ".dWzgKe"
+
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 def scrape_saved_places(url: str):
