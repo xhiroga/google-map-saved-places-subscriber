@@ -12,6 +12,7 @@ GOOGLE_BLUE = 4359668
 
 def main():
     started_at = datetime.now().isoformat()
+    logging.info(f"Started at {started_at}")
 
     # Read the URLs from the csv file
     with open("./data/urls.csv", "r") as file:
@@ -59,7 +60,7 @@ def main():
 
 
 if __name__ == "__main__":
-    logging.getLogger().setLevel(logging.WARNING)
+    logging.getLogger().setLevel(logging.INFO)
     while True:
         main()
-        time.sleep(300)  # Sleep for 5 minutes (300 seconds)
+        time.sleep(300)
