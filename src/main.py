@@ -5,7 +5,7 @@ import requests
 import time
 
 from datetime import datetime
-from app import get_new_rows_created_after, scrape_saved_places, upsert_csv
+from app import get_new_places_created_after, scrape_saved_places, upsert_csv
 
 GOOGLE_BLUE = 4359668
 
@@ -23,19 +23,20 @@ def main():
     for url in urls:
         saved_places = scrape_saved_places(url)
         upsert_csv(saved_places, "./data/saved_places.csv")
-        new_rows = get_new_rows_created_after("./data/saved_places.csv", started_at)
+        new_places = get_new_places_created_after("./data/saved_places.csv", started_at)
+        logging.info(f"New places: {new_places}")
 
         webhook_url = os.environ.get("DISCORD_WEBHOOK_URL")
         if not webhook_url:
             logging.error("DISCORD_WEBHOOK_URL is not set")
             exit(1)
 
-        for row in new_rows:
+        for place in new_places:
             fields = []
-            if row["rating"]:
-                fields.append({"name": ":star:評価", "value": row["rating"], "inline": True})
-            if row["reviews"]:
-                fields.append({"name": ":speech_balloon:クチコミ", "value": row["reviews"], "inline": True})
+            if place["rating"]:
+                fields.append({"name": ":star:評価", "value": place["rating"], "inline": True})
+            if place["reviews"]:
+                fields.append({"name": ":speech_balloon:クチコミ", "value": place["reviews"], "inline": True})
 
             payload = {
                 "content": "新しい場所が追加されました！",
@@ -43,9 +44,9 @@ def main():
                 "avatar_url": "https://blog.gisplanning.com/hs-fs/hubfs/GoogleMaps-Icon-alone-1.png",
                 "embeds": [
                     {
-                        "title": row["store_name"],
-                        "description": row["memo"],
-                        "url": row["url"],
+                        "title": place["store_name"],
+                        "description": place["memo"],
+                        "url": place["url"],
                         "color": GOOGLE_BLUE,
                         "fields": fields,
                     }

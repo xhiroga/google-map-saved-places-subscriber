@@ -105,12 +105,12 @@ def upsert_csv(places, file_path):
         writer.writerows(rows)
 
 
-def get_new_rows_created_after(file_path, started_at: str):
+def get_new_places_created_after(file_path, started_at: str):
     with open(file_path, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file)
-        rows = list(reader)
+        places = list(reader)
 
-    return [row for row in rows if row['created_at'] > started_at]
+    return [place for place in places if place['created_at'] > started_at]
 
 
 if __name__ == '__main__':
@@ -121,5 +121,5 @@ if __name__ == '__main__':
     started_at = datetime.now().isoformat()
     saved_places = scrape_saved_places(shared_link)
     upsert_csv(saved_places, file_path)
-    new_rows = get_new_rows_created_after(file_path, started_at)
-    logging.debug(f'New rows: {new_rows}')
+    new_places = get_new_places_created_after(file_path, started_at)
+    logging.info(f'New rows: {new_places}')
