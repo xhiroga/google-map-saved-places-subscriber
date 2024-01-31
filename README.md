@@ -29,5 +29,5 @@ Scrape google map saved places, save to csv file and send to Discord.
 
 ```bash
 touch ./data/urls.csv # Add urls to scrape
-docker-compose up --build
+docker compose up --build
 ```
