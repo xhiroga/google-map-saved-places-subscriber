@@ -34,9 +34,17 @@ def main():
         for place in new_places:
             fields = []
             if place["rating"]:
-                fields.append({"name": ":star:評価", "value": place["rating"], "inline": True})
+                fields.append(
+                    {"name": ":star:評価", "value": place["rating"], "inline": True}
+                )
             if place["reviews"]:
-                fields.append({"name": ":speech_balloon:クチコミ", "value": place["reviews"], "inline": True})
+                fields.append(
+                    {
+                        "name": ":speech_balloon:クチコミ",
+                        "value": place["reviews"],
+                        "inline": True,
+                    }
+                )
 
             payload = {
                 "content": "新しい場所が追加されました！",
