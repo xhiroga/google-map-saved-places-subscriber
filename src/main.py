@@ -47,7 +47,7 @@ def main():
                 )
 
             payload = {
-                "content": "新しい場所が追加されました！",
+                "content": f"{place['store_name']}が追加されました！",
                 "username": "Google Map",
                 "avatar_url": "https://blog.gisplanning.com/hs-fs/hubfs/GoogleMaps-Icon-alone-1.png",
                 "embeds": [
